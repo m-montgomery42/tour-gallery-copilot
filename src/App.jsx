@@ -50,6 +50,9 @@ function App() {
       {loading && <p>Loading...</p>} {/* Display loading message if data is still being fetched */}
       {error && <p>Error: {error}</p>} {/* Display error message if there is an error */}
       {!loading && !error && <Gallery tours={tours} />} {/* Render Gallery component with tour data if no loading or error */}
+      {tours.length === 0 && !loading && !error && ( // Check if no tours are left and there is no loading or error
+        <button onClick={() => window.location.reload()}>Refresh</button> // Display a Refresh button to refetch the data
+      )}
     </>
   );
 }
