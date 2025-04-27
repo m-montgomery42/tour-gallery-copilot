@@ -1,5 +1,4 @@
 import React, { useState } from 'react'; // Import React and useState for managing state
-import './TourCard.css'; // Import the CSS file for styling the component
 
 const TourCard = ({ tour, onRemove }) => { // Define the TourCard component with props for tour data and a removal callback
   const { name, info, image, price } = tour; // Destructure the tour object to extract its properties

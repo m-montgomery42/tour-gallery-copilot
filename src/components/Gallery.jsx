@@ -1,11 +1,11 @@
-import React from 'react'; // Import React library for creating components
+import React from 'react'; // Import useState for managing state
 import TourCard from './TourCard'; // Import the TourCard component
 
-const Gallery = ({ tours }) => { // Define the Gallery component that takes a 'tours' prop
+const Gallery = ({ tours, onRemoveTour }) => { // Add onRemoveTour prop to notify parent
   return (
     <div className="gallery"> {/* Container for the gallery */}
-      {tours.map((tour, index) => ( // Map over the tours array to render each tour
-        <TourCard key={index} {...tour} /> // Render a TourCard for each tour, passing tour data as props
+      {tours.map((tour) => ( // Map over the tours array to render each tour
+        <TourCard key={tour.id} tour={tour} onRemove={onRemoveTour} /> // Pass the onRemoveTour callback to TourCard
       ))}
     </div>
   );

@@ -1,7 +1,10 @@
+import React from 'react'; // Import React to resolve the ReferenceError
 import { useState, useEffect } from 'react';
+import viteLogo from './assets/react.svg'; // Import viteLogo asset
+import reactLogo from './assets/react.svg'; // Import reactLogo asset
+import Gallery from './components/Gallery'; // Import the Gallery component
 
 function App() {
-  const [count, setCount] = useState(0);
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +12,7 @@ function App() {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await fetch('https://course-api.com/react-tours-project');
+        const response = await fetch('/api/react-tours-project'); // Updated to use the proxy path
         if (!response.ok) {
           throw new Error('Failed to fetch tours');
         }
@@ -25,33 +28,29 @@ function App() {
     fetchTours();
   }, []);
 
+  const handleRemoveTour = (id) => { // Callback to remove a tour and update state
+    setTours(tours.filter((tour) => tour.id !== id));
+  };
+
+  const handleRefresh = () => {
+    setLoading(true); // Set loading to true when refresh is clicked
+    setTours([]); // Clear the tours state
+    setTimeout(() => { // Simulate a delay for fetching tours
+      window.location.reload(); // Reload the page after the delay
+    }, 1000); // Adjust the delay as needed
+  };
+
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1 className="app-title">Tour Gallery</h1> {/* Add a title for the app */}
       {loading && <p>Loading...</p>} {/* Display loading message if data is still being fetched */}
       {error && <p>Error: {error}</p>} {/* Display error message if there is an error */}
-      {!loading && !error && <Gallery tours={tours} />} {/* Render Gallery component with tour data if no loading or error */}
-      {tours.length === 0 && !loading && !error && ( // Check if no tours are left and there is no loading or error
-        <button onClick={() => window.location.reload()}>Refresh</button> // Display a Refresh button to refetch the data
+      {!loading && !error && <Gallery tours={tours} onRemoveTour={handleRemoveTour} />} {/* Render Gallery component with tour data if no loading or error */}
+      {tours.length === 0 && !loading && !error && ( // Ensure the message and refresh button are displayed when no tours are left
+        <div className="refresh-container"> {/* Add a container for better styling */}
+          <p>No tours left</p> {/* Display message when no tours are left */}
+          <button onClick={handleRefresh} className="refresh-button">Refresh</button> {/* Refresh button */}
+        </div>
       )}
     </>
   );
