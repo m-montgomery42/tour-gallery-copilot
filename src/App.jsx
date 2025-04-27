@@ -47,15 +47,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {!loading && !error && (
-        <ul>
-          {tours.map((tour) => (
-            <li key={tour.id}>{tour.name}</li>
-          ))}
-        </ul>
-      )}
+      {loading && <p>Loading...</p>} {/* Display loading message if data is still being fetched */}
+      {error && <p>Error: {error}</p>} {/* Display error message if there is an error */}
+      {!loading && !error && <Gallery tours={tours} />} {/* Render Gallery component with tour data if no loading or error */}
     </>
   );
 }
